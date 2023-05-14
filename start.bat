@@ -1,0 +1,1 @@
+nodemon --exec go run src/main.go --ext go
