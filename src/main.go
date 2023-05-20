@@ -22,9 +22,9 @@ func main() {
 
 	router.Use(cors.Default())
 
-	router.GET("/status/java", endpoints.FetchJavaHandler)
-	router.GET("/status/bedrock", endpoints.FetchBedrockHandler)
-	router.GET("/srv", endpoints.SrvHandler)
+	router.GET("/status/java/:ip", endpoints.FetchJavaHandler)
+	router.GET("/status/bedrock/:ip", endpoints.FetchBedrockHandler)
+	router.GET("/srv/:host", endpoints.SrvHandler)
 	router.GET("/ping", endpoints.PingHandler)
 
 	router.Run(":" + os.Getenv("SERVER_PORT"))

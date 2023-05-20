@@ -21,7 +21,7 @@ func LookupSrv(host string) (*net.SRV, error) {
 }
 
 func SrvHandler(c *gin.Context) {
-	host := c.Query("host")
+	host := c.Param("host")
 
 	data, err := srvCache.Value(host)
 	if err == nil {

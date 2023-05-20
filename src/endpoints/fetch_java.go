@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+	"strings"
 	"time"
 
 	"torch/src/structs"
@@ -249,28 +250,35 @@ func createJavaStatus(originalHost string, originalPort uint16, host string, por
 }
 
 func FetchJavaHandler(c *gin.Context) {
-	host := c.Query("host")
-	port := c.Query("port")
+	ip := c.Param("ip")
+	var port int
 
-	intPort, err := strconv.Atoi(port)
-	if err != nil {
-		intPort = 25565
+	if strings.Contains(ip, ":") {
+		split := strings.Split(ip, ":")
+		ip = split[0]
+		p, err := strconv.Atoi(split[1])
+		if err != nil {
+			port = 25565
+		}
+		port = p
+	} else {
+		port = 25565
 	}
 
-	uintPort := uint16(intPort)
+	uintPort := uint16(port)
 
-	cacheKey := fmt.Sprintf("%s:%d", host, intPort)
+	cacheKey := fmt.Sprintf("%s:%d", ip, port)
 	data, err := javaCache.Value(cacheKey)
 	if err == nil {
 		c.JSON(200, data.Data().(*structs.JavaStatus))
 		return
 	}
 
-	fetchedData, err := FetchJava(host, uintPort)
+	fetchedData, err := FetchJava(ip, uintPort)
 	if err != nil {
 		c.JSON(200, structs.OfflineServer{
 			Offline: true,
-			Host:    host,
+			Host:    ip,
 			Port:    uintPort,
 		})
 		return

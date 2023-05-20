@@ -163,33 +163,35 @@ func FetchBedrock(host string, port uint16) (*structs.BedrockStatus, error) {
 }
 
 func FetchBedrockHandler(c *gin.Context) {
-	host := c.Query("host")
-	port := c.Query("port")
+	ip := c.Param("ip")
+	var port int
 
-	intPort, err := strconv.Atoi(port)
-	if err != nil {
-		c.JSON(200, structs.OfflineServer{
-			Offline: true,
-			Host:    host,
-			Port:    uint16(intPort),
-		})
-		return
+	if strings.Contains(ip, ":") {
+		split := strings.Split(ip, ":")
+		ip = split[0]
+		p, err := strconv.Atoi(split[1])
+		if err != nil {
+			port = 19132
+		}
+		port = p
+	} else {
+		port = 19132
 	}
 
-	uintPort := uint16(intPort)
+	uintPort := uint16(port)
 
-	cacheKey := fmt.Sprintf("%s:%d", host, intPort)
+	cacheKey := fmt.Sprintf("%s:%d", ip, port)
 	data, err := bedrockCache.Value(cacheKey)
 	if err == nil {
 		c.JSON(200, data.Data().(*structs.BedrockStatus))
 		return
 	}
 
-	fetchedData, err := FetchBedrock(host, uintPort)
+	fetchedData, err := FetchBedrock(ip, uintPort)
 	if err != nil {
 		c.JSON(200, structs.OfflineServer{
 			Offline: true,
-			Host:    host,
+			Host:    ip,
 			Port:    uintPort,
 		})
 		return
