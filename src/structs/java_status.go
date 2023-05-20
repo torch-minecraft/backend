@@ -16,7 +16,7 @@ type RawJavaStatus struct {
 		} `json:"sample"`
 	} `json:"players"`
 	Description interface{} `json:"description"`
-	Favicon     string      `json:"favicon"`
+	Favicon        string      `json:"favicon"`
 	ModInfo     struct {
 		List []struct {
 			ModID   string `json:"modid"`
@@ -75,7 +75,7 @@ type JavaStatus struct {
 	Version     Version       `json:"version"`
 	Players     Players       `json:"players"`
 	Description *ParsedText   `json:"description"`
-	Favicon     string        `json:"favicon"`
+	Icon        string        `json:"icon"`
 	ModInfo     *ModInfo      `json:"mod_info"`
 	SrvRecord   *SrvRecord    `json:"used_srv"`
 	Latency     time.Duration `json:"latency"`

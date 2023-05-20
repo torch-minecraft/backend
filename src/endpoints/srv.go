@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func LookupSrv(host string) (*net.SRV, error) {
+func srv(host string) (*net.SRV, error) {
 	_, addrs, err := net.LookupSRV("minecraft", "tcp", host)
 
 	if err != nil {
@@ -29,7 +29,7 @@ func SrvHandler(c *gin.Context) {
 		return
 	}
 
-	srv, err := LookupSrv(host)
+	srv, err := srv(host)
 	if err != nil || srv == nil {
 		srv = &net.SRV{
 			Target: host,

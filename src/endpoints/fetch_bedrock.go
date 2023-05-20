@@ -18,7 +18,7 @@ import (
 
 var bedrockMagic = []byte{0x00, 0xFF, 0xFF, 0x00, 0xFE, 0xFE, 0xFE, 0xFE, 0xFD, 0xFD, 0xFD, 0xFD, 0x12, 0x34, 0x56, 0x78}
 
-func FetchBedrock(host string, port uint16) (*structs.BedrockStatus, error) {
+func fetchBedrock(host string, port uint16) (*structs.BedrockStatus, error) {
 	conn, err := net.DialTimeout("udp", fmt.Sprintf("%s:%d", host, port), statusTimeout)
 	if err != nil {
 		return nil, err
@@ -187,7 +187,7 @@ func FetchBedrockHandler(c *gin.Context) {
 		return
 	}
 
-	fetchedData, err := FetchBedrock(ip, uintPort)
+	fetchedData, err := fetchBedrock(ip, uintPort)
 	if err != nil {
 		c.JSON(200, structs.OfflineServer{
 			Offline: true,

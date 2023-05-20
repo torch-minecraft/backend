@@ -93,8 +93,6 @@ func Json(str string) string {
 	str = strings.ReplaceAll(str, "\n", "{{newline}}")
 	str = "§r" + str + "§r"
 
-	fmt.Println(str)
-
 	matches := colorCodeRegex.FindAllStringSubmatch(str, -1)
 
 	segments := make(map[string]JsonSegment)

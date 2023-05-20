@@ -20,7 +20,7 @@ func FetchJava(host string, port uint16) (*structs.JavaStatus, error) {
 	originalHost, originalPort := host, port
 
 	if port == 25565 {
-		srv, _ := LookupSrv(host)
+		srv, _ := srv(host)
 		if srv != nil {
 			host, port = srv.Target, srv.Port
 		}
@@ -195,7 +195,7 @@ func createJavaStatus(originalHost string, originalPort uint16, host string, por
 	}
 
 	if rawJavaResponse.Favicon == "" {
-		rawJavaResponse.Favicon = defaultFavicon
+		rawJavaResponse.Favicon = defaultIcon
 	}
 
 	result := &structs.JavaStatus{
@@ -211,7 +211,7 @@ func createJavaStatus(originalHost string, originalPort uint16, host string, por
 			Sample: samplePlayers,
 		},
 		Description: description,
-		Favicon:     rawJavaResponse.Favicon,
+		Icon:        rawJavaResponse.Favicon,
 		SrvRecord:   srv,
 		Latency:     time.Duration(time.Since(pingStart).Milliseconds()),
 		ModInfo:     nil,
