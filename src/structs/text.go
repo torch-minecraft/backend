@@ -184,6 +184,10 @@ func Html(str string) string {
 	html.WriteString(htmlOutput.String())
 	html.WriteString("</span>")
 
+	if html.String() == "<span></span>" {
+		return "<span><br /></span>"
+	}
+
 	return html.String()
 }
 
