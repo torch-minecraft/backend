@@ -1,22 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"torch/src/endpoints"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
-
-	"os"
 )
 
 func main() {
-
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file")
-	}
 
 	router := gin.Default()
 
@@ -28,6 +19,6 @@ func main() {
 	router.GET("/icon/:ip", endpoints.IconHandler)
 	router.GET("/ping", endpoints.PingHandler)
 
-	router.Run(":" + os.Getenv("SERVER_PORT"))
+	router.Run(":8000")
 
 }
