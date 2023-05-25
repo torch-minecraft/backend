@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 	"torch/src/structs"
 
 	"github.com/gin-gonic/gin"
@@ -48,6 +49,8 @@ func IconHandler(c *gin.Context) {
 		Host: ip,
 		Port: uintPort,
 		Data: javaStatus.Icon,
+		ObtainedAt: time.Now(),
+		ExpiresAt: time.Now().Add(time.Duration(iconCacheTime)),
 	}
 
 	iconCache.Add(ip, iconCacheTime, icon)
