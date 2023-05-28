@@ -32,7 +32,7 @@ func SrvHandler(c *gin.Context) {
 
 	data, err := srvCache.Value(host)
 	if err == nil {
-		c.JSON(200, data.Data().(structs.Srv))
+		c.JSON(200, data.Data().(*structs.Srv))
 		return
 	}
 
