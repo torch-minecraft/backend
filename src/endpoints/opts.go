@@ -13,7 +13,7 @@ var (
 	srvCacheTime = 30 * time.Minute
 
 	// Status
-	statusCacheTime = 2 * time.Minute
+	statusCacheTime = 30 * time.Second
 	statusTimeout   = 2 * time.Second
 
 	// Bedrock
